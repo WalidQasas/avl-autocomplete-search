@@ -15,7 +15,21 @@ public class AVLTree {
 
     // Internal recursive insert
     private AVLNode insert(AVLNode node, String word) {
-        // TODO implement the insertion logic
+
+        // The normal BST insertion
+        if (node == null)
+            return new AVLNode(word);
+
+        if (word.compareTo(node.word) < 0)
+            node.left = insert(node.left, word);
+        else if (word.compareTo(node.word) > 0)
+            node.right = insert(node.right, word);
+        else
+            return node; // duplicate words ignored
+
+        // Update our height
+        node.height = 1 + Math.max(height(node.left), height(node.right));
+
         return node;
     }
 

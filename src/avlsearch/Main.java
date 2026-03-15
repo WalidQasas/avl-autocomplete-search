@@ -6,11 +6,13 @@ public class Main {
 		
 		AVLTree tree = new AVLTree();
 
-		tree.insert("dog");
-		tree.insert("cat");
-		tree.insert("apple");
-		tree.insert("zebra");
-		
+	    tree.insert("c");
+	    tree.insert("b");
+	    tree.insert("a"); // this should trigger rotation
+
+	    tree.insert("d");
+	    tree.insert("e");
+
 		System.out.println("Insertions Completed!");
 	}
 	

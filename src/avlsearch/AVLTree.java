@@ -30,6 +30,29 @@ public class AVLTree {
         // Update our height
         node.height = 1 + Math.max(height(node.left), height(node.right));
 
+        // Get bf (balance factor)
+        int balance = getBalance(node);
+
+        // LL (LEFT LEFT) case
+        if (balance > 1 && word.compareTo(node.left.word) < 0)
+            return rotateRight(node);
+
+        // RR (RIGHT RIGHT) case
+        if (balance < -1 && word.compareTo(node.right.word) > 0)
+            return rotateLeft(node);
+
+        // LR (LEFT RIGHT) case
+        if (balance > 1 && word.compareTo(node.left.word) > 0) {
+            node.left = rotateLeft(node.left);
+            return rotateRight(node);
+        }
+
+        // RL (RIGHT LEFT) case
+        if (balance < -1 && word.compareTo(node.right.word) < 0) {
+            node.right = rotateRight(node.right);
+            return rotateLeft(node);
+        }
+
         return node;
     }
 
@@ -49,13 +72,35 @@ public class AVLTree {
 
     // Right rotation
     private AVLNode rotateRight(AVLNode y) {
-        // TODO
-        return y;
+
+        AVLNode x = y.left;
+        AVLNode T2 = x.right;
+
+        // Do the rotation
+        x.right = y;
+        y.left = T2;
+
+        // Update heights
+        y.height = 1 + Math.max(height(y.left), height(y.right));
+        x.height = 1 + Math.max(height(x.left), height(x.right));
+
+        return x;
     }
 
     // Left rotation
     private AVLNode rotateLeft(AVLNode x) {
-        // TODO
-        return x;
+
+        AVLNode y = x.right;
+        AVLNode T2 = y.left;
+
+        // Do the rotation
+        y.left = x;
+        x.right = T2;
+
+        // Update heights
+        x.height = 1 + Math.max(height(x.left), height(x.right));
+        y.height = 1 + Math.max(height(y.left), height(y.right));
+
+        return y;
     }
 }

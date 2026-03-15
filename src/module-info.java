@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author walee
- *
- */
-module AVLAutocompleteSearch {
-}

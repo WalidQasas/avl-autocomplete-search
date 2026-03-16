@@ -4,16 +4,16 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		AVLTree tree = new AVLTree();
+        AutocompleteEngine engine = new AutocompleteEngine();
 
-	    tree.insert("c");
-	    tree.insert("b");
-	    tree.insert("a"); // this should trigger rotation
+        engine.addWord("apple");
+        engine.addWord("application");
+        engine.addWord("apply");
+        engine.addWord("banana");
+        engine.addWord("band");
+        engine.addWord("bandwidth");
 
-	    tree.insert("d");
-	    tree.insert("e");
-
-		System.out.println("Insertions Completed!");
+        engine.search("app");
 	}
 	
 }

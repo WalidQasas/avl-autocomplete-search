@@ -103,4 +103,25 @@ public class AVLTree {
 
         return y;
     }
+    
+    public void searchPrefix(String prefix) {
+        searchPrefix(root, prefix);
+    }
+
+    private void searchPrefix(AVLNode node, String prefix) {
+
+        if (node == null)
+            return;
+
+        // check left subtree
+        searchPrefix(node.left, prefix);
+
+        // check current word
+        if (node.word.startsWith(prefix)) {
+            System.out.println(node.word);
+        }
+
+        // check right subtree
+        searchPrefix(node.right, prefix);
+    }
 }

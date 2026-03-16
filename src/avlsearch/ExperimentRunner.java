@@ -1,51 +1,89 @@
 package avlsearch;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExperimentRunner {
 
-    public static void runExperiment(int numberOfWords) {
+	public static void runExperiment(int numWords, boolean bstWorstCase) {
+	    System.out.println("----------------------------------");
+	    System.out.println("Words inserted: " + numWords);
 
-        AutocompleteEngine engine = new AutocompleteEngine();
-        Random random = new Random();
+	    List<String> words;
 
-        String[] words = new String[numberOfWords];
+	    if (bstWorstCase) {
+	        // Use sorted words for worst case scenario for BST
+	        String[] sortedWords = generateSortedWords(numWords);
+	        words = new ArrayList<>();
+	        for (String w : sortedWords) words.add(w);
+	    } else {
+	        // Use random words as usual
+	        words = generateRandomWords(numWords, 5);
+	    }
 
-        // Generate random words
-        for (int i = 0; i < numberOfWords; i++) {
-            words[i] = generateRandomWord(random, 5);
+	    String prefix = "abc";
+
+	    // AVL Tree
+	    AVLTree avl = new AVLTree();
+	    long start = System.nanoTime();
+	    for (String word : words) {
+	        avl.insert(word);
+	    }
+	    long end = System.nanoTime();
+	    long avlInsertTime = (end - start) / 1_000_000;
+
+	    // Search in AVL
+	    start = System.nanoTime();
+	    avl.searchPrefix(prefix);
+	    end = System.nanoTime();
+	    long avlSearchTime = (end - start) / 1_000_000;
+
+	    System.out.println("AVL insertion time: " + avlInsertTime + " ms");
+	    System.out.println("AVL search time: " + avlSearchTime + " ms");
+
+	    // BST Tree
+	    BSTTree bst = new BSTTree();
+	    start = System.nanoTime();
+	    for (String word : words) {
+	        bst.insert(word);
+	    }
+	    end = System.nanoTime();
+	    long bstInsertTime = (end - start) / 1_000_000;
+
+	    // Search in BST
+	    start = System.nanoTime();
+	    bst.searchPrefix(prefix);
+	    end = System.nanoTime();
+	    long bstSearchTime = (end - start) / 1_000_000;
+
+	    System.out.println("BST insertion time: " + bstInsertTime + " ms");
+	    System.out.println("BST search time: " + bstSearchTime + " ms");
+	}
+
+    // Helper to generate random lowercase words of given length
+    private static List<String> generateRandomWords(int count, int length) {
+        List<String> words = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            words.add(randomWord(length));
         }
-
-        // Measure insertion time
-        long startInsert = System.nanoTime();
-
-        for (String word : words) {
-            engine.addWord(word);
+        return words;
+    }
+    
+    // Helper for simulating the worst case scenario for BST
+    public static String[] generateSortedWords(int n) {
+        String[] words = new String[n];
+        for (int i = 0; i < n; i++) {
+            words[i] = String.format("word%05d", i); // word00000, word00001, etc.
         }
-
-        long endInsert = System.nanoTime();
-
-        // Measure search time
-        long startSearch = System.nanoTime();
-
-        engine.search("ab");   // prefix search test
-
-        long endSearch = System.nanoTime();
-
-        System.out.println("Words inserted: " + numberOfWords);
-        System.out.println("Insertion time: " + (endInsert - startInsert) / 1_000_000 + " ms");
-        System.out.println("Search time: " + (endSearch - startSearch) / 1_000_000 + " ms");
+        return words;
     }
 
-    private static String generateRandomWord(Random random, int length) {
-
-        String alphabet = "abcdefghijklmnopqrstuvwxyz";
-        StringBuilder word = new StringBuilder();
-
+    private static String randomWord(int length) {
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            word.append(alphabet.charAt(random.nextInt(alphabet.length())));
+            char c = (char) ('a' + (int) (Math.random() * 26));
+            sb.append(c);
         }
-
-        return word.toString();
+        return sb.toString();
     }
 }

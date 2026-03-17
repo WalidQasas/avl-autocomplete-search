@@ -10,12 +10,10 @@ public class ExperimentRunner {
 	    System.out.println("Words inserted: " + numWords);
 
 	    List<String> words;
-
+	    
 	    if (bstWorstCase) {
 	        // Use sorted words for worst case scenario for BST
-	        String[] sortedWords = generateSortedWords(numWords);
-	        words = new ArrayList<>();
-	        for (String w : sortedWords) words.add(w);
+	        words = generateSortedWords(numWords);
 	    } else {
 	        // Use random words as usual
 	        words = generateRandomWords(numWords, 5);
@@ -70,10 +68,10 @@ public class ExperimentRunner {
     }
     
     // Helper for simulating the worst case scenario for BST
-    public static String[] generateSortedWords(int n) {
-        String[] words = new String[n];
+    public static List<String> generateSortedWords(int n) {
+        List<String> words = new ArrayList<>(n);
         for (int i = 0; i < n; i++) {
-            words[i] = String.format("word%05d", i); // word00000, word00001, etc.
+            words.set(i, String.format("word%05d", i)); // word00000, word00001, etc.
         }
         return words;
     }

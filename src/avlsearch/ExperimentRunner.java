@@ -20,42 +20,45 @@ public class ExperimentRunner {
 	    }
 
 	    String prefix = "abc";
+	    AutocompleteEngine avlEngine = new AutocompleteEngine("AVL");
+	    AutocompleteEngine bstEngine = new AutocompleteEngine("BST");
+	    
+	    System.out.println("Starting experiment 1 with AVL-based Autocomlete Engine");
 
 	    // AVL Tree
-	    AVLTree avl = new AVLTree();
 	    long start = System.nanoTime();
 	    for (String word : words) {
-	        avl.insert(word);
+	    	avlEngine.addWord(word);
 	    }
 	    long end = System.nanoTime();
 	    long avlInsertTime = (end - start) / 1_000_000;
 
 	    // Search in AVL
 	    start = System.nanoTime();
-	    avl.searchPrefix(prefix);
+	    avlEngine.search(prefix);
 	    end = System.nanoTime();
 	    long avlSearchTime = (end - start) / 1_000_000;
-
-	    System.out.println("AVL insertion time: " + avlInsertTime + " ms");
-	    System.out.println("AVL search time: " + avlSearchTime + " ms");
-
+	    
+	    System.out.println("insertion time: " + avlInsertTime + " ms");
+	    System.out.println("search time: " + avlSearchTime + " ms");
+	    
+	    System.out.println("Starting experiment 2 with BST-based Autocomlete Engine");
 	    // BST Tree
-	    BSTTree bst = new BSTTree();
 	    start = System.nanoTime();
 	    for (String word : words) {
-	        bst.insert(word);
+	    	bstEngine.addWord(word);
 	    }
 	    end = System.nanoTime();
 	    long bstInsertTime = (end - start) / 1_000_000;
 
 	    // Search in BST
 	    start = System.nanoTime();
-	    bst.searchPrefix(prefix);
+	    bstEngine.search(prefix);
 	    end = System.nanoTime();
 	    long bstSearchTime = (end - start) / 1_000_000;
 
-	    System.out.println("BST insertion time: " + bstInsertTime + " ms");
-	    System.out.println("BST search time: " + bstSearchTime + " ms");
+	    System.out.println("insertion time: " + bstInsertTime + " ms");
+	    System.out.println("search time: " + bstSearchTime + " ms");
 	}
 
     // Helper to generate random lowercase words of given length

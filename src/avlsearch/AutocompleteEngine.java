@@ -1,11 +1,15 @@
 package avlsearch;
 
 public class AutocompleteEngine {
-
-    private AVLTree tree;
-
-    public AutocompleteEngine() {
-        tree = new AVLTree();
+	// let the AutocompleteEngine do the heavy lifting 
+	// we want to compare using a BSTTree v.s. AVLTree
+    private MyTree tree;
+    
+    public AutocompleteEngine(String treeType) {
+    	if (treeType == "AVL") 
+    		tree = new AVLTree();
+    	else
+    		tree = new BSTTree();
     }
 
     public void addWord(String word) {

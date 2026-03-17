@@ -5,59 +5,59 @@ import java.util.List;
 
 public class ExperimentRunner {
 
-	public static void runExperiment(int numWords, boolean bstWorstCase) {
+	public static void runExperiment(String searchTerm, int numWords, boolean bstWorstCase) {
 	    System.out.println("----------------------------------");
 	    System.out.println("Words inserted: " + numWords);
 
 	    List<String> words;
-
+	    
 	    if (bstWorstCase) {
 	        // Use sorted words for worst case scenario for BST
-	        String[] sortedWords = generateSortedWords(numWords);
-	        words = new ArrayList<>();
-	        for (String w : sortedWords) words.add(w);
+	        words = generateSortedWords(numWords);
 	    } else {
 	        // Use random words as usual
 	        words = generateRandomWords(numWords, 5);
 	    }
 
-	    String prefix = "abc";
+	    AutocompleteEngine avlEngine = new AutocompleteEngine("AVL");
+	    AutocompleteEngine bstEngine = new AutocompleteEngine("BST");
+	    
+	    System.out.println("Starting experiment 1 with AVL-based Autocomlete Engine");
 
 	    // AVL Tree
-	    AVLTree avl = new AVLTree();
 	    long start = System.nanoTime();
 	    for (String word : words) {
-	        avl.insert(word);
+	    	avlEngine.addWord(word);
 	    }
 	    long end = System.nanoTime();
-	    long avlInsertTime = (end - start) / 1_000_000;
+	    double avlInsertTime = (end - start) / 1_000_000.0;
 
 	    // Search in AVL
 	    start = System.nanoTime();
-	    avl.searchPrefix(prefix);
+	    avlEngine.search(searchTerm);
 	    end = System.nanoTime();
-	    long avlSearchTime = (end - start) / 1_000_000;
-
-	    System.out.println("AVL insertion time: " + avlInsertTime + " ms");
-	    System.out.println("AVL search time: " + avlSearchTime + " ms");
-
+	    double avlSearchTime = (end - start) / 1_000_000.0;
+	    
+	    System.out.println("insertion time: " + avlInsertTime + " ms");
+	    System.out.println("search time: " + avlSearchTime + " ms");
+	    
+	    System.out.println("Starting experiment 2 with BST-based Autocomlete Engine");
 	    // BST Tree
-	    BSTTree bst = new BSTTree();
 	    start = System.nanoTime();
 	    for (String word : words) {
-	        bst.insert(word);
+	    	bstEngine.addWord(word);
 	    }
 	    end = System.nanoTime();
-	    long bstInsertTime = (end - start) / 1_000_000;
+	    double bstInsertTime = (end - start) / 1_000_000.0;
 
 	    // Search in BST
 	    start = System.nanoTime();
-	    bst.searchPrefix(prefix);
+	    bstEngine.search(searchTerm);
 	    end = System.nanoTime();
-	    long bstSearchTime = (end - start) / 1_000_000;
+	    double bstSearchTime = (end - start) / 1_000_000.0;
 
-	    System.out.println("BST insertion time: " + bstInsertTime + " ms");
-	    System.out.println("BST search time: " + bstSearchTime + " ms");
+	    System.out.println("insertion time: " + bstInsertTime + " ms");
+	    System.out.println("search time: " + bstSearchTime + " ms");
 	}
 
     // Helper to generate random lowercase words of given length
@@ -70,10 +70,10 @@ public class ExperimentRunner {
     }
     
     // Helper for simulating the worst case scenario for BST
-    public static String[] generateSortedWords(int n) {
-        String[] words = new String[n];
+    public static List<String> generateSortedWords(int n) {
+        List<String> words = new ArrayList<>(n);
         for (int i = 0; i < n; i++) {
-            words[i] = String.format("word%05d", i); // word00000, word00001, etc.
+            words.add(String.format("word%05d", i)); // word00000, word00001, etc.
         }
         return words;
     }

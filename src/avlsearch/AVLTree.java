@@ -1,13 +1,13 @@
 package avlsearch;
 
-public class AVLTree {
+public class AVLTree implements MyTree{
 
     private AVLNode root;
 
     public AVLTree() {
         root = null;
     }
-
+    @Override
     // Insert method
     public void insert(String word) {
         root = insert(root, word);
@@ -103,7 +103,7 @@ public class AVLTree {
 
         return y;
     }
-    
+    @Override
     public void searchPrefix(String prefix) {
         searchPrefix(root, prefix);
     }

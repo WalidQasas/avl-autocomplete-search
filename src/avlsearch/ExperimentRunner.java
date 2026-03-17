@@ -31,13 +31,13 @@ public class ExperimentRunner {
 	    	avlEngine.addWord(word);
 	    }
 	    long end = System.nanoTime();
-	    long avlInsertTime = (end - start) / 1_000_000;
+	    double avlInsertTime = (end - start) / 1_000_000.0;
 
 	    // Search in AVL
 	    start = System.nanoTime();
 	    avlEngine.search(prefix);
 	    end = System.nanoTime();
-	    long avlSearchTime = (end - start) / 1_000_000;
+	    double avlSearchTime = (end - start) / 1_000_000.0;
 	    
 	    System.out.println("insertion time: " + avlInsertTime + " ms");
 	    System.out.println("search time: " + avlSearchTime + " ms");
@@ -49,13 +49,13 @@ public class ExperimentRunner {
 	    	bstEngine.addWord(word);
 	    }
 	    end = System.nanoTime();
-	    long bstInsertTime = (end - start) / 1_000_000;
+	    double bstInsertTime = (end - start) / 1_000_000.0;
 
 	    // Search in BST
 	    start = System.nanoTime();
 	    bstEngine.search(prefix);
 	    end = System.nanoTime();
-	    long bstSearchTime = (end - start) / 1_000_000;
+	    double bstSearchTime = (end - start) / 1_000_000.0;
 
 	    System.out.println("insertion time: " + bstInsertTime + " ms");
 	    System.out.println("search time: " + bstSearchTime + " ms");
@@ -74,7 +74,7 @@ public class ExperimentRunner {
     public static List<String> generateSortedWords(int n) {
         List<String> words = new ArrayList<>(n);
         for (int i = 0; i < n; i++) {
-            words.set(i, String.format("word%05d", i)); // word00000, word00001, etc.
+            words.add(String.format("word%05d", i)); // word00000, word00001, etc.
         }
         return words;
     }

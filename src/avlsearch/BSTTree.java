@@ -1,9 +1,9 @@
 package avlsearch;
 
-public class BSTTree {
+public class BSTTree implements MyTree{
 
     private BSTNode root;
-
+    @Override
     public void insert(String word) {
         root = insert(root, word);
     }
@@ -20,7 +20,7 @@ public class BSTTree {
 
         return node;
     }
-    
+    @Override
     public void searchPrefix(String prefix) {
         searchPrefix(root, prefix);
     }

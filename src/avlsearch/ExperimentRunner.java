@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ExperimentRunner {
 
-	public static void runExperiment(int numWords, boolean bstWorstCase) {
+	public static void runExperiment(String searchTerm, int numWords, boolean bstWorstCase) {
 	    System.out.println("----------------------------------");
 	    System.out.println("Words inserted: " + numWords);
 
@@ -19,7 +19,6 @@ public class ExperimentRunner {
 	        words = generateRandomWords(numWords, 5);
 	    }
 
-	    String prefix = "abc";
 	    AutocompleteEngine avlEngine = new AutocompleteEngine("AVL");
 	    AutocompleteEngine bstEngine = new AutocompleteEngine("BST");
 	    
@@ -35,7 +34,7 @@ public class ExperimentRunner {
 
 	    // Search in AVL
 	    start = System.nanoTime();
-	    avlEngine.search(prefix);
+	    avlEngine.search(searchTerm);
 	    end = System.nanoTime();
 	    double avlSearchTime = (end - start) / 1_000_000.0;
 	    
@@ -53,7 +52,7 @@ public class ExperimentRunner {
 
 	    // Search in BST
 	    start = System.nanoTime();
-	    bstEngine.search(prefix);
+	    bstEngine.search(searchTerm);
 	    end = System.nanoTime();
 	    double bstSearchTime = (end - start) / 1_000_000.0;
 
